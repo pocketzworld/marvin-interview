@@ -91,22 +91,25 @@ bool HelloWorld::init()
 	// auto tilemap = TMXTiledMap::create(nullptr);
 	// tilemap->setMapSize(Size(10, 10));
 
-	//size of one unit relative to the grass png
-	const auto gridSize = 111 * 1 / sqrt(2);
-	for (int y = 0; y < 3;y++) {
-		for (int x = 0;x < 3;x++) {
-		
-			auto isoSprite = Sprite::create("grass.png");
+	//size of one unit relative to the ground png
+	const auto tileSize = 111 * 1 / sqrt(2);
+	const int sizeX = 5;
+	const int sizeY = 5;
+	int zOrder = sizeX * sizeY;
+	for (int y = 0; y < sizeY;y++) {
+		for (int x = 0;x < sizeX;x++) {
 			
+			auto isoSprite = Sprite::create("grass.png");
+			// isoSprite->setScale(.5f);
 			if (isoSprite == nullptr)
 			{
 				problemLoading("'grass.png'");
 			}
 			else
 			{
-				auto projectedPos = Isometric::project(Vec3(x * gridSize, 0, y * gridSize));
+				auto projectedPos = Isometric::project(Vec3(-x * tileSize, 0, y * tileSize));
 				isoSprite->setPosition(projectedPos);
-				
+				isoSprite->setGlobalZOrder(zOrder--);
 				this->addChild(isoSprite, 2);
 				
 			}
