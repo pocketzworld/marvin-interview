@@ -12,6 +12,9 @@ public:
 	~Isometric();
 
 	static cocos2d::Vec2 project(cocos2d::Vec3& worldPos);
+
+private:
+	static cocos2d::Mat4 projectionMat;
 	
 };
 
