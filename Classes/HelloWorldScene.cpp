@@ -24,6 +24,7 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "proj.win32/MousePanZoom.h"
 
 USING_NS_CC;
 
@@ -83,38 +84,22 @@ bool HelloWorld::init()
     /////////////////////////////
     // 3. add your codes below...
 
-    // add a label shows "Hello World"
-    // create and initialize a label
+    
+	auto isoSprite = Sprite::create("grass.png");
+	if(isoSprite == nullptr)
+	{
+		problemLoading("'grass.png'");
+	} else
+	{
+		isoSprite->setPosition3D(Vec3(0, 0, 0));
+		this->addChild(isoSprite, 2);
+	}
 
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    if (label == nullptr)
-    {
-        problemLoading("'fonts/Marker Felt.ttf'");
-    }
-    else
-    {
-        // position the label on the center of the screen
-        label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                                origin.y + visibleSize.height - label->getContentSize().height));
-
-        // add the label as a child to this layer
-        this->addChild(label, 1);
-    }
-
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-    if (sprite == nullptr)
-    {
-        problemLoading("'HelloWorld.png'");
-    }
-    else
-    {
-        // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-        // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
-    }
+	auto cam = this->getDefaultCamera();
+	cam->setPosition(Vec2(0, 0));
+	
+	// cam->setPosition3D(Vec3(0, 0, 1));
+	
     return true;
 }
 
