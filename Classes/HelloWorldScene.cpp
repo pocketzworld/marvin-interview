@@ -25,6 +25,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "proj.win32/MousePanZoom.h"
+#include "proj.win32/Isometric.h"
 
 USING_NS_CC;
 
@@ -81,23 +82,41 @@ bool HelloWorld::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
+
+	
+
     /////////////////////////////
     // 3. add your codes below...
 
-    
-	auto isoSprite = Sprite::create("grass.png");
-	if(isoSprite == nullptr)
-	{
-		problemLoading("'grass.png'");
-	} else
-	{
-		isoSprite->setPosition3D(Vec3(0, 0, 0));
-		this->addChild(isoSprite, 2);
+	// auto tilemap = TMXTiledMap::create(nullptr);
+	// tilemap->setMapSize(Size(10, 10));
+
+	//size of one unit relative to the grass png
+	const auto gridSize = 111 * 1 / sqrt(2);
+	for (int y = 0; y < 3;y++) {
+		for (int x = 0;x < 3;x++) {
+		
+			auto isoSprite = Sprite::create("grass.png");
+			
+			if (isoSprite == nullptr)
+			{
+				problemLoading("'grass.png'");
+			}
+			else
+			{
+				auto projectedPos = Isometric::project(Vec3(x * gridSize, 0, y * gridSize));
+				isoSprite->setPosition(projectedPos);
+				
+				this->addChild(isoSprite, 2);
+				
+			}
+		}
 	}
+	
 
 	auto cam = this->getDefaultCamera();
 	cam->setPosition(Vec2(0, 0));
-	
+	// cam->setScale(0.1f);
 	// cam->setPosition3D(Vec3(0, 0, 1));
 	
     return true;
