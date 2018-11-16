@@ -24,7 +24,7 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include "proj.win32/MousePanZoom.h"
+#include "Isometric.h"
 
 USING_NS_CC;
 
@@ -81,24 +81,51 @@ bool HelloWorld::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
+
+	
+
     /////////////////////////////
     // 3. add your codes below...
 
-    
-	auto isoSprite = Sprite::create("grass.png");
-	if(isoSprite == nullptr)
-	{
-		problemLoading("'grass.png'");
-	} else
-	{
-		isoSprite->setPosition3D(Vec3(0, 0, 0));
-		this->addChild(isoSprite, 2);
+	// auto tilemap = TMXTiledMap::create(nullptr);
+	// tilemap->setMapSize(Size(10, 10));
+
+	//size of one unit relative to the ground png
+	const auto tileSize = 111 * 1 / sqrt(2);
+	const int sizeX = 5;
+	const int sizeY = 5;
+	int zOrder = sizeX * sizeY;
+	for (int y = 0; y < sizeY;y++) {
+		for (int x = 0;x < sizeX;x++) {
+			
+			auto isoSprite = Sprite::create("grass.png");
+			// isoSprite->setScale(.5f);
+			if (isoSprite == nullptr)
+			{
+				problemLoading("'grass.png'");
+			}
+			else
+			{
+				auto projectedPos = Isometric::project(Vec3(x * tileSize, 0, y * tileSize));
+				isoSprite->setPosition(projectedPos);
+				isoSprite->setGlobalZOrder(zOrder--);
+				this->addChild(isoSprite, 2);				
+			}
+		}
 	}
 
+	//draw some debug info lines
+	auto drawNode = DrawNode::create();
+	drawNode->drawLine(Isometric::project(Vec3(0, 0, 0)), Isometric::project(Vec3(1 * tileSize, 0, 0)), Color4F::RED);
+	drawNode->drawLine(Isometric::project(Vec3(0, 0, 0)), Isometric::project(Vec3(0, 0, 1 * tileSize)), Color4F::BLUE);
+
+	drawNode->setGlobalZOrder(100);
+	this->addChild(drawNode,2);
 	auto cam = this->getDefaultCamera();
 	cam->setPosition(Vec2(0, 0));
-	
+	// cam->setScale(0.1f);
 	// cam->setPosition3D(Vec3(0, 0, 1));
+
 	
     return true;
 }
