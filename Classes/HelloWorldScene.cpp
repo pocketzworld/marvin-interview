@@ -106,7 +106,7 @@ bool HelloWorld::init()
 			}
 			else
 			{
-				auto projectedPos = Isometric::project(Vec3(-x * tileSize, 0, y * tileSize));
+				auto projectedPos = Isometric::project(Vec3(x, 0, y));
 				isoSprite->setPosition(projectedPos);
 				isoSprite->setGlobalZOrder(zOrder--);
 				this->addChild(isoSprite, 2);				
@@ -114,10 +114,10 @@ bool HelloWorld::init()
 		}
 	}
 
-	//draw some debug info
+	//draw some debug info lines
 	auto drawNode = DrawNode::create();
-	drawNode->drawLine(Isometric::project(Vec3(0, 0, 0)), Isometric::project(Vec3(-1 * tileSize, 0, 0)), Color4F::RED);
-	drawNode->drawLine(Isometric::project(Vec3(0, 0, 0)), Isometric::project(Vec3(0, 0, 1 * tileSize)), Color4F::RED);
+	drawNode->drawLine(Isometric::project(Vec3(0, 0, 0)), Isometric::project(Vec3(1 * tileSize, 0, 0)), Color4F::RED);
+	drawNode->drawLine(Isometric::project(Vec3(0, 0, 0)), Isometric::project(Vec3(0, 0, 1 * tileSize)), Color4F::BLUE);
 
 	drawNode->setGlobalZOrder(100);
 	this->addChild(drawNode,2);
