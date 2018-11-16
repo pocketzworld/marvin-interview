@@ -106,15 +106,21 @@ bool HelloWorld::init()
 			}
 			else
 			{
-				auto projectedPos = Isometric::project(Vec3(x * tileSize, 0, y * tileSize));
+				auto projectedPos = Isometric::project(Vec3(-x * tileSize, 0, y * tileSize));
 				isoSprite->setPosition(projectedPos);
 				isoSprite->setGlobalZOrder(zOrder--);
 				this->addChild(isoSprite, 2);				
 			}
 		}
 	}
-	
 
+	//draw some debug info
+	auto drawNode = DrawNode::create();
+	drawNode->drawLine(Isometric::project(Vec3(0, 0, 0)), Isometric::project(Vec3(-1 * tileSize, 0, 0)), Color4F::RED);
+	drawNode->drawLine(Isometric::project(Vec3(0, 0, 0)), Isometric::project(Vec3(0, 0, 1 * tileSize)), Color4F::RED);
+
+	drawNode->setGlobalZOrder(100);
+	this->addChild(drawNode,2);
 	auto cam = this->getDefaultCamera();
 	cam->setPosition(Vec2(0, 0));
 	// cam->setScale(0.1f);
