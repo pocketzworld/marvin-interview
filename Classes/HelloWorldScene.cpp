@@ -106,7 +106,7 @@ bool HelloWorld::init()
 			}
 			else
 			{
-				auto projectedPos = Isometric::project(Vec3(x, 0, y));
+				auto projectedPos = Isometric::project(Vec3(x * tileSize, 0, y * tileSize));
 				isoSprite->setPosition(projectedPos);
 				isoSprite->setGlobalZOrder(zOrder--);
 				this->addChild(isoSprite, 2);				
