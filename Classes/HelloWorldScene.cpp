@@ -24,8 +24,7 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include "proj.win32/MousePanZoom.h"
-#include "proj.win32/Isometric.h"
+#include "Isometric.h"
 
 USING_NS_CC;
 
@@ -107,11 +106,10 @@ bool HelloWorld::init()
 			}
 			else
 			{
-				auto projectedPos = Isometric::project(Vec3(-x * tileSize, 0, y * tileSize));
+				auto projectedPos = Isometric::project(Vec3(x * tileSize, 0, y * tileSize));
 				isoSprite->setPosition(projectedPos);
 				isoSprite->setGlobalZOrder(zOrder--);
-				this->addChild(isoSprite, 2);
-				
+				this->addChild(isoSprite, 2);				
 			}
 		}
 	}
@@ -121,6 +119,7 @@ bool HelloWorld::init()
 	cam->setPosition(Vec2(0, 0));
 	// cam->setScale(0.1f);
 	// cam->setPosition3D(Vec3(0, 0, 1));
+
 	
     return true;
 }
