@@ -33,6 +33,9 @@ public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
+
+	bool mouseDown = false;
+	cocos2d::Vec2 lastMousePos = cocos2d::Vec2::ZERO;
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
