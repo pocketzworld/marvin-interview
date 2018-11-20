@@ -25,6 +25,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "Isometric.h"
+#include "DynamicSorting.h"
 
 USING_NS_CC;
 
@@ -95,6 +96,7 @@ bool HelloWorld::init()
 	const int sizeX = 5;
 	const int sizeY = 5;
 	int zOrder = sizeX * sizeY;
+	const auto sorting = new DynamicSorting();
 	for (int y = 0; y < sizeY;y++) {
 		for (int x = 0;x < sizeX;x++) {
 			
@@ -106,9 +108,13 @@ bool HelloWorld::init()
 			}
 			else
 			{
+				auto isoObjPtr = new IsoObject(isoSprite);
+				isoObjPtr->setPosition(Vec3(x, 0, y));
+				isoObjPtr->setSize(Vec3(1, 1, 1));
+				sorting->addObject(isoObjPtr);
 				auto projectedPos = Isometric::project(Vec3(x * tileSize, 0, y * tileSize));
 				isoSprite->setPosition(projectedPos);
-				isoSprite->setGlobalZOrder(zOrder--);
+				// isoSprite->setGlobalZOrder(zOrder--);
 				this->addChild(isoSprite, 2);				
 			}
 		}
@@ -119,6 +125,9 @@ bool HelloWorld::init()
 	drawNode->drawLine(Isometric::project(Vec3(0, 0, 0)), Isometric::project(Vec3(1 * tileSize, 0, 0)), Color4F::RED);
 	drawNode->drawLine(Isometric::project(Vec3(0, 0, 0)), Isometric::project(Vec3(0, 0, 1 * tileSize)), Color4F::BLUE);
 
+	
+	this->addComponent(sorting);
+	this->scheduleUpdate();
 	drawNode->setGlobalZOrder(100);
 	this->addChild(drawNode,2);
 	auto cam = this->getDefaultCamera();
