@@ -91,9 +91,10 @@ bool HelloWorld::init()
 
 	//size of one unit relative to the ground png
 	const auto tileSize = 111 * 1 / sqrt(2);
-	const int sizeX = 5;
-	const int sizeY = 5;
-	int zOrder = sizeX * sizeY;
+	const int sizeX = 10;
+	const int sizeY = 10;
+	const int numberOfBoxes = 10;
+	int zOrder = sizeX * sizeY + numberOfBoxes;
 
 	//put all sprites under new layer for pan & zooming
 	auto panZoomLayer = Layer::create();
@@ -140,13 +141,12 @@ bool HelloWorld::init()
 
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, panZoomLayer);
 
-
+	//populate XZ grid
 	for (int y = 0; y < sizeY; y++)
 	{
 		for (int x = 0; x < sizeX; x++)
 		{
 			auto isoSprite = Sprite::create("grass.png");
-			// isoSprite->setScale(.5f);
 			if (isoSprite == nullptr)
 			{
 				problemLoading("'grass.png'");
@@ -158,6 +158,26 @@ bool HelloWorld::init()
 				isoSprite->setGlobalZOrder(zOrder--);
 				panZoomLayer->addChild(isoSprite, 2);
 			}
+		}
+	}
+
+	//populate some random boxes
+	for(int i = 0; i < numberOfBoxes; i++)
+	{
+		int x = rand() % sizeX;
+		int y = rand() % sizeY;
+
+		auto isoSprite = Sprite::create("box.png");
+		if (isoSprite == nullptr)
+		{
+			problemLoading("'box.png'");
+		}
+		else
+		{
+			auto projectedPos = Isometric::project(Vec3(x * tileSize, 1 * tileSize, y * tileSize));
+			isoSprite->setPosition(projectedPos);
+			isoSprite->setGlobalZOrder(sizeX * sizeY + numberOfBoxes - x * y);
+			panZoomLayer->addChild(isoSprite, 2);
 		}
 	}
 
