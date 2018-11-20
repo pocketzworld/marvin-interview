@@ -161,6 +161,7 @@ bool HelloWorld::init()
 		}
 	}
 
+	srand(time(NULL));
 	//populate some random boxes
 	for(int i = 0; i < numberOfBoxes; i++)
 	{
